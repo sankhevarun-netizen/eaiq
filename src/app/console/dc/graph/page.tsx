@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import { ConsoleTitle, Kpi, Panel } from "@/components/console/ConsoleShell";
 import { Loading } from "@/components/console/Loading";
-import { TYPE_COLOR } from "@/components/console/GraphView";
+import { TYPE_COLOR } from "@/components/console/graphColors";
 import { tenantName, useSite } from "@/lib/consoleData";
 import { downstream, upstream } from "@/lib/dcEngine";
 import { cn } from "@/lib/utils";

@@ -4,11 +4,7 @@ import ForceGraph2D from "react-force-graph-2d";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { SiteData } from "@/lib/consoleData";
 
-export const TYPE_COLOR: Record<string, string> = {
-  feed: "#0f172a", generator: "#475569", ats: "#334155", msb: "#334155", tie: "#94a3b8", transformer: "#475569",
-  ups: "#1a3a8f", battery_string: "#2546c4", pdu: "#3b82f6", rpp: "#60a5fa", rack: "#bfdbfe",
-  cooling_tower: "#15803d", chiller: "#16a34a", chw_loop: "#22c55e", pump: "#4ade80", crah: "#86efac",
-};
+import { TYPE_COLOR } from "@/components/console/graphColors";
 
 export function GraphView({ site, highlight, onPick, showRacks }: { site: SiteData; highlight: Set<string>; onPick: (id: string) => void; showRacks: boolean }) {
   const wrap = useRef<HTMLDivElement>(null);
