@@ -2,16 +2,15 @@
 
 import ForceGraph2D from "react-force-graph-2d";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { components, graphLinks, type CompType } from "@/data/demo/nexusMumbai1";
+import type { SiteData } from "@/lib/consoleData";
 
-export const TYPE_COLOR: Record<CompType, string> = {
-  Feed: "#0f172a", Switchgear: "#334155", Transformer: "#475569", Genset: "#64748b",
-  UPS: "#1a3a8f", Battery: "#2546c4", PDU: "#3b82f6", Rack: "#93c5fd",
-  Chiller: "#16a34a", CRAH: "#4ade80", Hall: "#8b5cf6", Row: "#c4b5fd",
-  CoreSwitch: "#f59e0b", AggSwitch: "#fbbf24", Sensor: "#14b8a6",
+export const TYPE_COLOR: Record<string, string> = {
+  feed: "#0f172a", generator: "#475569", ats: "#334155", msb: "#334155", tie: "#94a3b8", transformer: "#475569",
+  ups: "#1a3a8f", battery_string: "#2546c4", pdu: "#3b82f6", rpp: "#60a5fa", rack: "#bfdbfe",
+  cooling_tower: "#15803d", chiller: "#16a34a", chw_loop: "#22c55e", pump: "#4ade80", crah: "#86efac",
 };
 
-export function GraphView({ highlight, onPick }: { highlight: Set<string>; onPick: (id: string) => void }) {
+export function GraphView({ site, highlight, onPick, showRacks }: { site: SiteData; highlight: Set<string>; onPick: (id: string) => void; showRacks: boolean }) {
   const wrap = useRef<HTMLDivElement>(null);
   const [w, setW] = useState(800);
   useEffect(() => {
@@ -20,41 +19,42 @@ export function GraphView({ highlight, onPick }: { highlight: Set<string>; onPic
     return () => ro.disconnect();
   }, []);
 
-  const data = useMemo(
-    () => ({
-      nodes: components.map((c) => ({ id: c.id, label: c.label, type: c.type })),
-      links: graphLinks.map((l) => ({ source: l.source, target: l.target, kind: l.kind })),
-    }),
-    [],
-  );
+  const data = useMemo(() => {
+    const nodes = [
+      ...site.assets.map((a) => ({ id: a.id, type: a.type })),
+      ...(showRacks ? site.racks.map((r) => ({ id: r.id, type: "rack" })) : []),
+    ];
+    const ids = new Set(nodes.map((n) => n.id));
+    const links = site.links.filter(([a, b, t]) => t !== "COOLS_ROW" && t !== "REDUNDANT_WITH" && ids.has(a) && ids.has(b)).map(([a, b, t]) => ({ source: a, target: b, kind: t }));
+    return { nodes, links };
+  }, [site, showRacks]);
   const any = highlight.size > 0;
 
   return (
-    <div ref={wrap} className="h-[480px] w-full">
+    <div ref={wrap} className="h-[500px] w-full">
       <ForceGraph2D
         graphData={data}
         width={w}
-        height={480}
+        height={500}
         backgroundColor="#ffffff"
-        cooldownTicks={120}
-        nodeRelSize={4}
+        cooldownTicks={140}
         linkColor={(l) => {
           const s = typeof l.source === "object" ? (l.source as { id: string }).id : (l.source as string);
           const t = typeof l.target === "object" ? (l.target as { id: string }).id : (l.target as string);
-          return any && highlight.has(s) && highlight.has(t) ? "rgba(26,58,143,0.8)" : any ? "rgba(203,213,225,0.25)" : "rgba(148,163,184,0.45)";
+          return any && highlight.has(s) && highlight.has(t) ? "rgba(26,58,143,0.85)" : any ? "rgba(203,213,225,0.2)" : "rgba(148,163,184,0.4)";
         }}
         nodeCanvasObject={(node, ctx, scale) => {
-          const n = node as { id: string; x: number; y: number; type: CompType };
+          const n = node as { id: string; x: number; y: number; type: string };
           const lit = !any || highlight.has(n.id);
-          const r = n.type === "Rack" ? 2.5 : n.type === "Row" || n.type === "Hall" ? 4 : 5;
+          const r = n.type === "rack" ? 2 : n.type === "feed" || n.type === "ats" ? 6 : 4;
           ctx.beginPath();
           ctx.arc(n.x, n.y, r, 0, 2 * Math.PI);
-          ctx.fillStyle = lit ? TYPE_COLOR[n.type] : "#e2e8f0";
+          ctx.fillStyle = lit ? TYPE_COLOR[n.type] ?? "#94a3b8" : "#eef2f7";
           ctx.fill();
-          if (n.type !== "Rack" && scale > 1.2 && lit) {
-            ctx.font = `${10 / scale}px Inter, sans-serif`;
+          if (n.type !== "rack" && scale > 1.6 && lit) {
+            ctx.font = `${9 / scale}px Inter, sans-serif`;
             ctx.fillStyle = "#334155";
-            ctx.fillText(n.id, n.x + r + 1, n.y + 3 / scale);
+            ctx.fillText(n.id.replace(`${site.site.id}-`, ""), n.x + r + 1, n.y + 3 / scale);
           }
         }}
         onNodeClick={(n) => onPick((n as { id: string }).id)}

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "ontology": "node scripts/build-ontology.mjs data-src/eaiq_dataset_v2_4"
+    "ontology": "node scripts/build-ontology.mjs data-src/eaiq_dataset_v2_4 && node scripts/build-console.mjs data-src/eaiq_dataset_v2_4"
   },
   "dependencies": {
     "@react-three/drei": "^10.0.0",

@@ -3,51 +3,65 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Text } from "@react-three/drei";
 import { useMemo, useState } from "react";
-import { components, rowCapacity, type Component } from "@/data/demo/nexusMumbai1";
+import type { Rack, SiteData } from "@/lib/consoleData";
 
-export type Overlay = "load" | "thermal" | "tenant";
+export type Overlay = "load" | "power" | "tenant";
 
-const TENANT_COLORS = ["#1a3a8f", "#16a34a", "#8b5cf6", "#0ea5e9", "#f59e0b", "#ef4444", "#14b8a6", "#64748b"];
-const HOT = new Set(["R3-04", "R3-05", "R3-07", "R4-02", "R4-06"]);
+const PALETTE = ["#1a3a8f", "#16a34a", "#8b5cf6", "#0ea5e9", "#f59e0b", "#ef4444", "#14b8a6", "#64748b", "#ec4899", "#84cc16", "#a16207", "#0f766e"];
+const PITCH = 0.75, ROW_GAP = 2.6, HALL_GAP = 4;
 
-function colorFor(r: Component, overlay: Overlay) {
-  if (overlay === "tenant") return TENANT_COLORS[(r.row ?? 1) - 1];
-  if (overlay === "thermal") return HOT.has(r.id) ? "#ef4444" : r.row === 3 || r.row === 4 ? "#f59e0b" : "#22c55e";
-  const kw = r.kw ?? 0;
-  const lim = Math.min(rowCapacity[(r.row ?? 1) - 1].coolingLimitKw / 8, 30);
-  const pct = kw / lim;
-  return pct > 0.85 ? "#ef4444" : pct > 0.65 ? "#f59e0b" : "#22c55e";
-}
-
-export function Twin3D({ overlay, onSelect, selected }: { overlay: Overlay; onSelect: (c: Component) => void; selected?: string }) {
-  const racks = useMemo(() => components.filter((c) => c.type === "Rack"), []);
+export function Twin3D({ site, overlay, onSelect, selected, singlePath }: { site: SiteData; overlay: Overlay; onSelect: (r: Rack) => void; selected?: string; singlePath: Set<string> }) {
   const [hover, setHover] = useState<string | null>(null);
 
+  const layout = useMemo(() => {
+    const tenantIdx = new Map(site.tenants.map((t, i) => [t.id, i]));
+    let x0 = 0;
+    const halls = site.halls.map((h) => {
+      const rows = site.rows.filter((r) => r.hall === h.id).sort((a, b) => a.no - b.no);
+      const maxPos = Math.max(1, ...site.racks.filter((r) => r.hall === h.id).map((r) => r.pos));
+      const w = maxPos * PITCH + 1.5, d = rows.length * ROW_GAP + 1.5;
+      const out = { h, rows, x0, w, d };
+      x0 += w + HALL_GAP;
+      return out;
+    });
+    const total = x0 - HALL_GAP;
+    const rowZ = new Map<string, number>();
+    const hallX = new Map<string, number>();
+    for (const hl of halls) {
+      hallX.set(hl.h.id, hl.x0 - total / 2);
+      hl.rows.forEach((r, i) => rowZ.set(r.id, -hl.d / 2 + 1 + i * ROW_GAP));
+    }
+    return { halls, total, rowZ, hallX, tenantIdx };
+  }, [site]);
+
+  const color = (r: Rack) => {
+    if (overlay === "tenant") return r.tenant ? PALETTE[(layout.tenantIdx.get(r.tenant) ?? 0) % PALETTE.length] : "#e2e8f0";
+    if (overlay === "power") return singlePath.has(r.id) ? "#ef4444" : r.status === "leased" ? "#22c55e" : "#e2e8f0";
+    if (r.status !== "leased") return "#e2e8f0";
+    const pct = r.load / r.kw;
+    return pct > 0.85 ? "#ef4444" : pct > 0.65 ? "#f59e0b" : "#22c55e";
+  };
+
+  const span = Math.max(layout.total, 20);
   return (
-    <Canvas camera={{ position: [14, 16, 18], fov: 42 }} dpr={[1, 2]}>
+    <Canvas camera={{ position: [0, span * 0.55, span * 0.75], fov: 42 }} dpr={[1, 2]}>
       <color attach="background" args={["#f8fafc"]} />
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[10, 20, 10]} intensity={0.8} />
-      {/* Halls floor */}
-      {[1, 2].map((h) => (
-        <group key={h} position={[h === 1 ? -6.5 : 6.5, 0, 0]}>
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
-            <planeGeometry args={[12, 14]} />
+      <ambientLight intensity={0.75} />
+      <directionalLight position={[10, 30, 10]} intensity={0.8} />
+      {layout.halls.map((hl) => (
+        <group key={hl.h.id}>
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[hl.x0 - layout.total / 2 + hl.w / 2, -0.01, 0]}>
+            <planeGeometry args={[hl.w, hl.d]} />
             <meshStandardMaterial color="#e2e8f0" />
           </mesh>
-          <Text position={[0, 0.02, -7.6]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.7} color="#475569">{`Hall ${h}`}</Text>
+          <Text position={[hl.x0 - layout.total / 2 + hl.w / 2, 0.02, -hl.d / 2 - 0.9]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.8} color="#475569">{hl.h.name}</Text>
         </group>
       ))}
-      {racks.map((r) => {
-        const row = r.row!;
-        const k = Number(r.id.split("-")[1]);
-        const hallX = row <= 4 ? -6.5 : 6.5;
-        const rowIdx = (row - 1) % 4;
-        const x = hallX - 4.2 + (k - 1) * 1.2;
-        const z = -5 + rowIdx * 3.2;
-        const h = 1.4 + (r.kw ?? 10) / 20;
-        const isSel = selected === r.id;
-        const isHover = hover === r.id;
+      {site.racks.map((r) => {
+        const x = (layout.hallX.get(r.hall) ?? 0) + 0.75 + (r.pos - 0.5) * PITCH;
+        const z = layout.rowZ.get(r.row) ?? 0;
+        const h = 1 + (r.kw / 15) * 1.6;
+        const sel = selected === r.id, hov = hover === r.id;
         return (
           <mesh
             key={r.id}
@@ -56,17 +70,12 @@ export function Twin3D({ overlay, onSelect, selected }: { overlay: Overlay; onSe
             onPointerOver={(e) => { e.stopPropagation(); setHover(r.id); document.body.style.cursor = "pointer"; }}
             onPointerOut={() => { setHover(null); document.body.style.cursor = "auto"; }}
           >
-            <boxGeometry args={[0.9, h, 1.6]} />
-            <meshStandardMaterial color={colorFor(r, overlay)} emissive={isSel || isHover ? "#1a3a8f" : "#000000"} emissiveIntensity={isSel ? 0.5 : isHover ? 0.25 : 0} />
+            <boxGeometry args={[0.6, h, 1.1]} />
+            <meshStandardMaterial color={color(r)} emissive={sel || hov ? "#1a3a8f" : "#000000"} emissiveIntensity={sel ? 0.55 : hov ? 0.3 : 0} />
           </mesh>
         );
       })}
-      {[1, 2, 3, 4, 5, 6, 7, 8].map((row) => {
-        const hallX = row <= 4 ? -6.5 : 6.5;
-        const z = -5 + ((row - 1) % 4) * 3.2;
-        return <Text key={row} position={[hallX - 5.6, 0.05, z]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.45} color="#64748b">{`R${row}`}</Text>;
-      })}
-      <OrbitControls enablePan maxPolarAngle={Math.PI / 2.2} minDistance={8} maxDistance={45} />
+      <OrbitControls enablePan maxPolarAngle={Math.PI / 2.2} minDistance={6} maxDistance={span * 2} />
     </Canvas>
   );
 }

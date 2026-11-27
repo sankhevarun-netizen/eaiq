@@ -10,11 +10,13 @@ import {
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/layout/Logo";
 import { ROLES, useConsole } from "@/components/providers/ConsoleStore";
-import { SITE } from "@/data/demo/nexusMumbai1";
+import { ENTERPRISES, SITES } from "@/lib/consoleData";
+
+const SITE = { asOf: "27 Nov 2026, 13:15 IST" };
 
 const GROUPS = [
   {
-    label: "DC pack · Nexus Mumbai-1",
+    label: "DC pack · the facility",
     links: [
       { href: "/console/dc/command", label: "Command view", icon: LayoutDashboard },
       { href: "/console/dc/twin", label: "Digital twin", icon: Boxes },
@@ -47,7 +49,8 @@ const GROUPS = [
 
 export function ConsoleShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { role, setRole, user, approvals } = useConsole();
+  const { role, setRole, user, approvals, siteId, setSiteId, entId, setEntId } = useConsole();
+  const isEnt = pathname.startsWith("/console/enterprise");
   const [open, setOpen] = useState(false);
   const pending = approvals.filter((a) => a.status === "Pending").length;
 
@@ -93,7 +96,15 @@ export function ConsoleShell({ children }: { children: React.ReactNode }) {
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
             <Link href="/"><Logo className="text-xl" /></Link>
-            <span className="hidden rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 sm:inline">{SITE.name}</span>
+            {isEnt ? (
+              <select value={entId} onChange={(e) => setEntId(e.target.value)} aria-label="Enterprise" className="hidden rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700 outline-none focus:border-brand-blue sm:block">
+                {ENTERPRISES.map((e) => <option key={e.id} value={e.id}>{e.name}</option>)}
+              </select>
+            ) : (
+              <select value={siteId} onChange={(e) => setSiteId(e.target.value)} aria-label="Site" className="hidden rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700 outline-none focus:border-brand-blue sm:block">
+                {SITES.map((s) => <option key={s.id} value={s.id}>{s.id} · {s.name}</option>)}
+              </select>
+            )}
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden text-xs text-slate-400 md:inline">As of {SITE.asOf}</span>
