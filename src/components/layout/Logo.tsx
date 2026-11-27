@@ -2,13 +2,26 @@ import { cn } from "@/lib/utils";
 
 /** KPMG mark: four outlined boxes over the italic wordmark. */
 export function KpmgMark({ className, dark = false }: { className?: string; dark?: boolean }) {
-  const c = dark ? "#ffffff" : "#00338D";
+  const c = dark ? "#ffffff" : "#25569A";
   return (
-    <svg viewBox="0 0 200 100" className={cn("h-9 w-auto", className)} role="img" aria-label="KPMG">
-      {[22, 66, 110, 154].map((x) => (
-        <rect key={x} x={x} y={2} width={42} height={74} fill="none" stroke={c} strokeWidth={3.5} />
+    <svg viewBox="50 400 1180 475" className={cn("h-9 w-auto", className)} role="img" aria-label="KPMG">
+      {[124, 406, 688, 969].map((x) => (
+        <rect key={x} x={x} y={412} width={254} height={359} fill={c} />
       ))}
-      <text x={2} y={96} textLength={196} lengthAdjust="spacingAndGlyphs" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontWeight={900} fontStyle="italic" fontSize={64} fill={c}>
+      <text
+        x={62}
+        y={856}
+        textLength={1090}
+        lengthAdjust="spacingAndGlyphs"
+        fontFamily="Arial Black, Arial, Helvetica, sans-serif"
+        fontWeight={900}
+        fontStyle="italic"
+        fontSize={330}
+        fill={dark ? "#00338D" : "#ffffff"}
+        stroke={c}
+        strokeWidth={14}
+        paintOrder="stroke"
+      >
         KPMG
       </text>
     </svg>
