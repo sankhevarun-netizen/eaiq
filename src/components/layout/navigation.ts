@@ -6,7 +6,7 @@ export type NavItem = { label: string; href: string; groups?: NavGroup[] };
 
 export const NAV_ITEMS: NavItem[] = [
   {
-    label: "Story",
+    label: "Why EAiQ",
     href: "/problem",
     groups: [
       {

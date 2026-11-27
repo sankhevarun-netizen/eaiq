@@ -7,7 +7,7 @@ export default function SolutionPage() {
   return (
     <>
       <PageHero
-        crumb={<Breadcrumb items={[{ label: "Story" }, { label: "Our solution" }]} />}
+        crumb={<Breadcrumb items={[{ label: "Why EAiQ", href: "/problem" }, { label: "Our solution" }]} />}
         eyebrow={solution.eyebrow}
         title={solution.title}
         intro="Every system of record is mapped once into a knowledge graph. The EAiQ AI Brain orchestrates specialist agents over it, and the executor recommends and records each change — hover any node to trace it, click to lock."

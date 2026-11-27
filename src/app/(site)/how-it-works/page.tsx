@@ -7,7 +7,7 @@ export default function HowItWorksPage() {
   return (
     <>
       <PageHero
-        crumb={<Breadcrumb items={[{ label: "Story" }, { label: "How it works" }]} />}
+        crumb={<Breadcrumb items={[{ label: "Why EAiQ", href: "/problem" }, { label: "How it works" }]} />}
         eyebrow={howItWorks.eyebrow}
         title={howItWorks.title}
         intro="From estate components through the systems of record, into the EAiQ knowledge graph, to a prioritized and governed decision — hover any stage to trace it, click to lock."

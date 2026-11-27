@@ -9,7 +9,7 @@ export default function PathToValuePage() {
   return (
     <>
       <PageHero
-        crumb={<Breadcrumb items={[{ label: "Story" }, { label: "Path to value" }]} />}
+        crumb={<Breadcrumb items={[{ label: "Why EAiQ", href: "/problem" }, { label: "Path to value" }]} />}
         eyebrow={roadmap.eyebrow}
         title={roadmap.title}
         intro="Seven layers, three phases. What is live today, what lands in the upcoming weeks, and the fully autonomous target state."

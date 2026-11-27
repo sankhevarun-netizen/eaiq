@@ -7,7 +7,7 @@ export default function ProblemPage() {
   return (
     <>
       <PageHero
-        crumb={<Breadcrumb items={[{ label: "Story" }, { label: "The problem" }]} />}
+        crumb={<Breadcrumb items={[{ label: "Why EAiQ", href: "/problem" }, { label: "The problem" }]} />}
         eyebrow={problem.eyebrow}
         title={problem.title}
         intro="Operators and enterprises each see their own systems clearly. What neither can see is how a signal in one system turns into impact in another."
