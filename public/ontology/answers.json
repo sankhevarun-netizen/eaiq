@@ -1,0 +1,843 @@
+{
+ "1": {
+  "scenarios": {
+   "MUM1 whole A side (feed + 3 gens)": {
+    "racks_lost": 0,
+    "racks_newly_single_path": 480,
+    "tenants": []
+   },
+   "NOI1 (bank DR) feed and generators": {
+    "racks_lost": 192,
+    "racks_newly_single_path": 0,
+    "tenants": [
+     {
+      "tenant": "Bharat Mercantile Bank",
+      "racks_lost": 105,
+      "notify_min": 60,
+      "penalty_inr": 0.0
+     }
+    ]
+   },
+   "MUM1 PDU H1-A2 and H1-B2": {
+    "racks_lost": 40,
+    "racks_newly_single_path": 0,
+    "tenants": [
+     {
+      "tenant": "Bharat Mercantile Bank",
+      "racks_lost": 40,
+      "notify_min": 15,
+      "penalty_inr": 875000.0
+     }
+    ]
+   }
+  },
+  "rule": "penalty = rate x max(0, 4 h - threshold); captive sites carry an internal SLA with no penalty"
+ },
+ "2": {
+  "MUM1": {
+   "total": 12,
+   "root": "MUM1-PDU-H1-B2",
+   "classes": {
+    "cause": 1,
+    "symptom": 8,
+    "upstream consequence": 1,
+    "unrelated": 2
+   },
+   "unrelated": [
+    "AL-011",
+    "AL-012"
+   ]
+  },
+  "CHN1": {
+   "total": 10,
+   "root": "CHN1-CHWP-H1-2",
+   "classes": {
+    "cause": 1,
+    "symptom": 8,
+    "unrelated": 1
+   },
+   "unrelated": [
+    "AL-022"
+   ]
+  }
+ },
+ "3": {
+  "change": "MUM1-PDU-H1-A2",
+  "newly_single_path": 40,
+  "racks_lost_if_alone": 0,
+  "blocking_alert": [
+   "MUM1-PDU-H1-B2"
+  ],
+  "racks_lost_with_alert": 40,
+  "tenants": [
+   {
+    "tenant": "Bharat Mercantile Bank",
+    "racks_lost": 40,
+    "notify_min": 15,
+    "penalty_inr": 875000.0
+   }
+  ],
+  "safe_window_start": "2026-12-02 01:00:00+00:00",
+  "repair_ends": "2026-12-01 13:00:00+00:00"
+ },
+ "13": {
+  "changes": {
+   "MUM1-PDU-H1-A2": {
+    "newly_single_path": 40,
+    "lost_if_alone": 0,
+    "one_failure_from_outage_given_open_alerts": 40
+   },
+   "MUM1-ATS-A": {
+    "newly_single_path": 480,
+    "lost_if_alone": 0,
+    "one_failure_from_outage_given_open_alerts": 40
+   },
+   "MUM1-UPS-H1-A1": {
+    "newly_single_path": 0,
+    "lost_if_alone": 0,
+    "one_failure_from_outage_given_open_alerts": 0
+   },
+   "NOI1-UPS-H1-A1": {
+    "newly_single_path": 0,
+    "lost_if_alone": 0,
+    "one_failure_from_outage_given_open_alerts": 0
+   }
+  },
+  "structurally_single_path_racks_by_site": {
+   "NOI1": 192
+  }
+ },
+ "4": {
+  "halls_with_stranded_capacity": [
+   {
+    "hall": "MUM2-HALL-H2",
+    "site": "MUM2",
+    "rack_kw": 10.0,
+    "sold_rated_kw": 1280,
+    "limit_kw": 902,
+    "binding": "cooling",
+    "stranded_kw": 378,
+    "headroom_rated": -378,
+    "headroom_measured": 147,
+    "vacant": 0
+   },
+   {
+    "hall": "MUM2-HALL-H1",
+    "site": "MUM2",
+    "rack_kw": 8.0,
+    "sold_rated_kw": 1024,
+    "limit_kw": 808,
+    "binding": "cooling",
+    "stranded_kw": 216,
+    "headroom_rated": -216,
+    "headroom_measured": 82,
+    "vacant": 0
+   },
+   {
+    "hall": "MUM1-HALL-H2",
+    "site": "MUM1",
+    "rack_kw": 7.5,
+    "sold_rated_kw": 1200,
+    "limit_kw": 1080,
+    "binding": "rpp",
+    "stranded_kw": 120,
+    "headroom_rated": -120,
+    "headroom_measured": 469,
+    "vacant": 0
+   },
+   {
+    "hall": "MUM1-HALL-H1",
+    "site": "MUM1",
+    "rack_kw": 6.0,
+    "sold_rated_kw": 960,
+    "limit_kw": 864,
+    "binding": "rpp",
+    "stranded_kw": 96,
+    "headroom_rated": -96,
+    "headroom_measured": 254,
+    "vacant": 0
+   },
+   {
+    "hall": "CHN1-HALL-H1",
+    "site": "CHN1",
+    "rack_kw": 6.0,
+    "sold_rated_kw": 960,
+    "limit_kw": 864,
+    "binding": "rpp",
+    "stranded_kw": 96,
+    "headroom_rated": -96,
+    "headroom_measured": 306,
+    "vacant": 0
+   },
+   {
+    "hall": "PUN1-HALL-H1",
+    "site": "PUN1",
+    "rack_kw": 7.0,
+    "sold_rated_kw": 896,
+    "limit_kw": 808,
+    "binding": "ups",
+    "stranded_kw": 88,
+    "headroom_rated": -88,
+    "headroom_measured": 353,
+    "vacant": 0
+   },
+   {
+    "hall": "HYD1-HALL-H1",
+    "site": "HYD1",
+    "rack_kw": 8.0,
+    "sold_rated_kw": 768,
+    "limit_kw": 702,
+    "binding": "rpp",
+    "stranded_kw": 66,
+    "headroom_rated": -66,
+    "headroom_measured": 273,
+    "vacant": 0
+   },
+   {
+    "hall": "NOI1-HALL-H1",
+    "site": "NOI1",
+    "rack_kw": 6.0,
+    "sold_rated_kw": 576,
+    "limit_kw": 522,
+    "binding": "ups",
+    "stranded_kw": 54,
+    "headroom_rated": -54,
+    "headroom_measured": 175,
+    "vacant": 0
+   }
+  ],
+  "total_stranded_kw": 1114,
+  "halls_checked": 16
+ },
+ "5": {
+  "ask": "20 racks at 10 kW (200 kW) in a hall rated 10 kW or more",
+  "candidates": [
+   {
+    "hall": "MUM2-HALL-H3",
+    "site": "MUM2",
+    "rack_kw": 12.0,
+    "sold_rated_kw": 372,
+    "limit_kw": 1235,
+    "binding": "cooling",
+    "stranded_kw": 0,
+    "headroom_rated": 863,
+    "headroom_measured": 1019,
+    "vacant": 97
+   },
+   {
+    "hall": "HYD1-HALL-H3",
+    "site": "HYD1",
+    "rack_kw": 15.0,
+    "sold_rated_kw": 630,
+    "limit_kw": 1296,
+    "binding": "rpp",
+    "stranded_kw": 0,
+    "headroom_rated": 666,
+    "headroom_measured": 762,
+    "vacant": 54
+   },
+   {
+    "hall": "HYD1-HALL-H2",
+    "site": "HYD1",
+    "rack_kw": 10.0,
+    "sold_rated_kw": 400,
+    "limit_kw": 864,
+    "binding": "rpp",
+    "stranded_kw": 0,
+    "headroom_rated": 464,
+    "headroom_measured": 673,
+    "vacant": 56
+   },
+   {
+    "hall": "PUN1-HALL-H2",
+    "site": "PUN1",
+    "rack_kw": 10.0,
+    "sold_rated_kw": 710,
+    "limit_kw": 1152,
+    "binding": "rpp",
+    "stranded_kw": 0,
+    "headroom_rated": 442,
+    "headroom_measured": 793,
+    "vacant": 57
+   },
+   {
+    "hall": "MUM2-HALL-H4",
+    "site": "MUM2",
+    "rack_kw": 15.0,
+    "sold_rated_kw": 720,
+    "limit_kw": 1152,
+    "binding": "rpp",
+    "stranded_kw": 0,
+    "headroom_rated": 432,
+    "headroom_measured": 551,
+    "vacant": 80
+   }
+  ],
+  "fits_on_rated_basis": 5,
+  "fits_on_measured_basis": 5,
+  "crah_unit_cost_inr": 2100000.0
+ },
+ "6": {
+  "top": [
+   {
+    "asset": "MUM1-BATT-H1-A1-S2",
+    "rise_c": 7.5,
+    "z": 8.5,
+    "lot": "LOT-7731",
+    "racks": 160,
+    "tenants": 3,
+    "enterprises": [
+     "ENT-BANK"
+    ]
+   },
+   {
+    "asset": "HYD1-BATT-H1-A1-S2",
+    "rise_c": 7.4,
+    "z": 8.4,
+    "lot": "LOT-7731",
+    "racks": 96,
+    "tenants": 5,
+    "enterprises": [
+     "ENT-GCC",
+     "ENT-ZEN"
+    ]
+   },
+   {
+    "asset": "NOI1-BATT-H1-A2-S1",
+    "rise_c": 4.0,
+    "z": 4.6,
+    "lot": "LOT-6555",
+    "racks": 96,
+    "tenants": 1,
+    "enterprises": [
+     "ENT-BANK"
+    ]
+   },
+   {
+    "asset": "CHN1-BATT-H2-B1-S1",
+    "rise_c": 2.9,
+    "z": 3.3,
+    "lot": "LOT-6555",
+    "racks": 160,
+    "tenants": 4,
+    "enterprises": []
+   }
+  ],
+  "batteries_checked": 180
+ },
+ "7": {
+  "racks": 40,
+  "applications": 26,
+  "by_enterprise": {
+   "ENT-BANK": 26
+  },
+  "tier1": [
+   "FinCore",
+   "PayRail",
+   "CardAuth",
+   "LedgerCore",
+   "AMLWatch",
+   "LegacyGL",
+   "BranchTeller",
+   "ATMSwitch",
+   "IdentityGate",
+   "APIGateway"
+  ],
+  "storm_racks_apps": [
+   "FinCore",
+   "PayRail",
+   "CardAuth",
+   "LedgerCore",
+   "AMLWatch",
+   "TreasuryOne",
+   "BranchTeller",
+   "ATMSwitch",
+   "IdentityGate",
+   "APIGateway",
+   "TesseraHub",
+   "FluxPortal",
+   "AtlasPortal"
+  ]
+ },
+ "8": {
+  "IdentityGate": {
+   "direct_callers": 31,
+   "all_callers": 88,
+   "applications": 60,
+   "tier1": 13,
+   "weak_links": 7
+  },
+  "IAMCore": {
+   "direct_callers": 30,
+   "all_callers": 63,
+   "applications": 40,
+   "tier1": 7,
+   "weak_links": 11
+  },
+  "CheckoutSvc": {
+   "direct_callers": 28,
+   "all_callers": 58,
+   "applications": 40,
+   "tier1": 2,
+   "weak_links": 10
+  }
+ },
+ "9": {
+  "ENT-BANK": {
+   "incidents": 82,
+   "traced": 63,
+   "share": 0.77
+  },
+  "ENT-GCC": {
+   "incidents": 54,
+   "traced": 41,
+   "share": 0.76
+  },
+  "ENT-ZEN": {
+   "incidents": 57,
+   "traced": 49,
+   "share": 0.86
+  }
+ },
+ "10": {
+  "ENT-BANK": {
+   "billed_6m_inr": 13017025,
+   "tag_attributable_pct": 97.8,
+   "graph_attributable_pct": 100.0
+  },
+  "ENT-GCC": {
+   "billed_6m_inr": 7746142,
+   "tag_attributable_pct": 83.0,
+   "graph_attributable_pct": 100.0
+  },
+  "ENT-ZEN": {
+   "billed_6m_inr": 42875871,
+   "tag_attributable_pct": 65.1,
+   "graph_attributable_pct": 100.0
+  },
+  "note": "graph coverage is 100% because the dataset assumes application-to-resource links exist"
+ },
+ "16": {
+  "ENT-BANK": {
+   "components": 49,
+   "applications": 36,
+   "tier1_apps": 7,
+   "share_of_apps_pct": 52.9
+  },
+  "ENT-GCC": {
+   "components": 22,
+   "applications": 18,
+   "tier1_apps": 4,
+   "share_of_apps_pct": 37.5
+  },
+  "ENT-ZEN": {
+   "components": 12,
+   "applications": 8,
+   "tier1_apps": 0,
+   "share_of_apps_pct": 15.4
+  }
+ },
+ "17": {
+  "ENT-BANK": [
+   [
+    "LegalCase",
+    0,
+    8004232
+   ],
+   [
+    "LegacyGL",
+    3,
+    13641709
+   ],
+   [
+    "ChequeClear",
+    5,
+    2046582
+   ],
+   [
+    "CollectionsPlus",
+    5,
+    2382169
+   ]
+  ],
+  "ENT-GCC": [
+   [
+    "LegacyAPLedger",
+    1,
+    7546356
+   ],
+   [
+    "OldTimesheet",
+    1,
+    14015835
+   ]
+  ],
+  "ENT-ZEN": [
+   [
+    "LegacyPricing",
+    4,
+    9273531
+   ]
+  ]
+ },
+ "18": {
+  "ENT-BANK": {
+   "runs": 2473,
+   "fail_rate": 0.123,
+   "test_gate_failures": 170,
+   "flaky_pipelines": 7,
+   "corr_with_prod_incident": 0.52
+  },
+  "ENT-GCC": {
+   "runs": 1893,
+   "fail_rate": 0.135,
+   "test_gate_failures": 116,
+   "flaky_pipelines": 12,
+   "corr_with_prod_incident": 0.32
+  },
+  "ENT-ZEN": {
+   "runs": 1823,
+   "fail_rate": 0.144,
+   "test_gate_failures": 151,
+   "flaky_pipelines": 12,
+   "corr_with_prod_incident": 0.32
+  },
+  "note": "correlation reflects planted flaky pipelines"
+ },
+ "19": {
+  "ENT-BANK": {
+   "resources": 74,
+   "idle_nonprod": 4,
+   "idle_inr_month": 264080,
+   "no_owner_tag": 7,
+   "no_app_tag": 2
+  },
+  "ENT-GCC": {
+   "resources": 45,
+   "idle_nonprod": 2,
+   "idle_inr_month": 156026,
+   "no_owner_tag": 18,
+   "no_app_tag": 9
+  },
+  "ENT-ZEN": {
+   "resources": 252,
+   "idle_nonprod": 16,
+   "idle_inr_month": 1107270,
+   "no_owner_tag": 170,
+   "no_app_tag": 95
+  }
+ },
+ "20": {
+  "ENT-BANK": {
+   "PostgreSQL or Oracle only for core data (apps not on it)": 49,
+   "Vendor-supported OS only": 0,
+   "Java LTS only": 15
+  },
+  "ENT-GCC": {
+   "PostgreSQL as default RDBMS (apps not on it)": 29,
+   "Java LTS only": 6,
+   "Node.js active LTS": 1
+  },
+  "ENT-ZEN": {
+   "PostgreSQL as default RDBMS (apps not on it)": 29,
+   "Node.js active LTS": 2,
+   "Supported Kubernetes only": 0
+  }
+ },
+ "11": {
+  "ENT-BANK": [
+   {
+    "item": "Retire decided apps",
+    "value_inr": 26074692,
+    "effort": 2
+   },
+   {
+    "item": "End-of-life tech on tier-1 apps",
+    "value_inr": 28000000,
+    "effort": 4
+   },
+   {
+    "item": "Flaky pipelines",
+    "value_inr": 10500000,
+    "effort": 2
+   },
+   {
+    "item": "Idle non-prod cloud",
+    "value_inr": 3168960,
+    "effort": 1
+   }
+  ],
+  "ENT-GCC": [
+   {
+    "item": "Retire decided apps",
+    "value_inr": 21562191,
+    "effort": 2
+   },
+   {
+    "item": "Flaky pipelines",
+    "value_inr": 18000000,
+    "effort": 2
+   },
+   {
+    "item": "End-of-life tech on tier-1 apps",
+    "value_inr": 16000000,
+    "effort": 4
+   },
+   {
+    "item": "Idle non-prod cloud",
+    "value_inr": 1872312,
+    "effort": 1
+   }
+  ],
+  "ENT-ZEN": [
+   {
+    "item": "Idle non-prod cloud",
+    "value_inr": 13287240,
+    "effort": 1
+   },
+   {
+    "item": "Flaky pipelines",
+    "value_inr": 18000000,
+    "effort": 2
+   },
+   {
+    "item": "Retire decided apps",
+    "value_inr": 9273531,
+    "effort": 2
+   },
+   {
+    "item": "End-of-life tech on tier-1 apps",
+    "value_inr": 0,
+    "effort": 4
+   }
+  ],
+  "rule": "value over effort; value weights are placeholders"
+ },
+ "12": {
+  "decision": "DEC-001",
+  "enterprise": "ENT-BANK",
+  "app": "LegacyGL",
+  "decided": "2025-02-09",
+  "status": "not_executed",
+  "approver": "ARB chair",
+  "evidence": "EVD-001",
+  "still_costing_inr": 13641709,
+  "dependents": 3
+ },
+ "14": {
+  "age_only_top3": [
+   "NOI1-CRAH-H2-03",
+   "NOI1-CRAH-H1-05",
+   "NOI1-CRAH-H1-02"
+  ],
+  "top": [
+   {
+    "asset": "HYD1-BATT-H1-A1-S2",
+    "type": "battery_string",
+    "age_ratio": 0.92,
+    "tenants": 5,
+    "cost": 1900000.0
+   },
+   {
+    "asset": "MUM1-BATT-H1-A1-S2",
+    "type": "battery_string",
+    "age_ratio": 0.95,
+    "tenants": 3,
+    "cost": 1900000.0
+   },
+   {
+    "asset": "HYD1-BATT-H1-A2-S1",
+    "type": "battery_string",
+    "age_ratio": 0.96,
+    "tenants": 5,
+    "cost": 1900000.0
+   },
+   {
+    "asset": "HYD1-BATT-H1-B3-S1",
+    "type": "battery_string",
+    "age_ratio": 0.95,
+    "tenants": 5,
+    "cost": 1900000.0
+   },
+   {
+    "asset": "NOI1-CHWP-H1-1",
+    "type": "pump",
+    "age_ratio": 1.14,
+    "tenants": 1,
+    "cost": 900000.0
+   },
+   {
+    "asset": "MUM1-BATT-H2-B1-S2",
+    "type": "battery_string",
+    "age_ratio": 0.85,
+    "tenants": 4,
+    "cost": 1900000.0
+   }
+  ]
+ },
+ "26": {
+  "assets_past_design_life_by_site": {
+   "NOI1": 20,
+   "PUN1": 5
+  },
+  "replacement_cost_inr_by_site": {
+   "NOI1": 58000000.0,
+   "PUN1": 9900000.0
+  },
+  "worst": [
+   {
+    "asset": "NOI1-CRAH-H1-05",
+    "age_ratio": 1.49
+   },
+   {
+    "asset": "NOI1-CRAH-H2-03",
+    "age_ratio": 1.49
+   },
+   {
+    "asset": "NOI1-CRAH-H1-02",
+    "age_ratio": 1.47
+   }
+  ]
+ },
+ "15": {
+  "event": "MUM1 PDU H1-A2 and H1-B2 down 4 h",
+  "penalty_inr": 875000.0,
+  "tenants": [
+   "Bharat Mercantile Bank"
+  ],
+  "preventive_inr": 2500000.0
+ },
+ "21": {
+  "breaches": [
+   {
+    "app": "UPIGateway",
+    "enterprise": "ENT-BANK",
+    "region": "asia-southeast1",
+    "data": "payment"
+   },
+   {
+    "app": "ClientDataMart",
+    "enterprise": "ENT-GCC",
+    "region": "westeurope",
+    "data": "client_confidential"
+   },
+   {
+    "app": "PaymentTokenVault",
+    "enterprise": "ENT-ZEN",
+    "region": "ap-southeast-1",
+    "data": "payment"
+   }
+  ],
+  "cross_border_personal_data_to_review": [
+   {
+    "app": "ParentHRPortal",
+    "enterprise": "ENT-GCC",
+    "region": "westeurope"
+   },
+   {
+    "app": "GlobalPayrollEngine",
+    "enterprise": "ENT-GCC",
+    "region": "westeurope"
+   }
+  ]
+ },
+ "22": {
+  "dr_site_single_path": {
+   "count": 6,
+   "apps": [
+    "FinCore (DR NOI1)",
+    "LedgerCore (DR NOI1)",
+    "AMLWatch (DR NOI1)",
+    "BranchTeller (DR NOI1)",
+    "ATMSwitch (DR NOI1)",
+    "IdentityGate (DR NOI1)"
+   ]
+  },
+  "dr_shares_utility_grid": {
+   "count": 3,
+   "apps": [
+    "PayRail (MUM1>MUM2)",
+    "CardAuth (MUM1>MUM2)",
+    "APIGateway (MUM1>MUM2)"
+   ]
+  },
+  "no_dr": {
+   "count": 3,
+   "apps": [
+    "SwiftBridge (BANK)",
+    "LegacyGL (BANK)",
+    "TreasuryOps (GCC)"
+   ]
+  },
+  "tier1_on_prem_apps": 19
+ },
+ "23": {
+  "racks_lost": 480,
+  "tenants": 10,
+  "enterprises_hit": [
+   "ENT-BANK"
+  ],
+  "penalty_4h_inr": 5215000.0,
+  "tier1_apps_primary_here": 10,
+  "with_dr_on_other_grid": 6,
+  "by_enterprise": {
+   "ENT-BANK": 10
+  }
+ },
+ "24": {
+  "captive": [
+   {
+    "site": "PUN1",
+    "leased_rated_kw": 1606.0,
+    "measured_load_kw": 814,
+    "annual_cost_inr": 182000000,
+    "cost_per_rated_kw_month": 9444
+   },
+   {
+    "site": "NOI1",
+    "leased_rated_kw": 648.0,
+    "measured_load_kw": 393,
+    "annual_cost_inr": 137000000,
+    "cost_per_rated_kw_month": 17618
+   }
+  ],
+  "colo_price_inr_per_kw_month_median": 9316.0,
+  "colo_range": [
+   7452.0,
+   11290.0
+  ],
+  "note": "captive cost is opex plus depreciation assumed in the generator; colo prices are invented"
+ },
+ "25": {
+  "ENT-BANK": {
+   "applications": 68,
+   "on_prem_pct": 65,
+   "cloud_pct": 29,
+   "median_run_cost_inr": 3240181,
+   "tier1": 15,
+   "eol_app_pct": 52.9,
+   "pipeline_fail_rate": 0.123,
+   "incidents": 82
+  },
+  "ENT-GCC": {
+   "applications": 48,
+   "on_prem_pct": 62,
+   "cloud_pct": 25,
+   "median_run_cost_inr": 3961901,
+   "tier1": 11,
+   "eol_app_pct": 37.5,
+   "pipeline_fail_rate": 0.135,
+   "incidents": 54
+  },
+  "ENT-ZEN": {
+   "applications": 52,
+   "on_prem_pct": 12,
+   "cloud_pct": 71,
+   "median_run_cost_inr": 4399670,
+   "tier1": 5,
+   "eol_app_pct": 15.4,
+   "pipeline_fail_rate": 0.144,
+   "incidents": 57
+  }
+ }
+}

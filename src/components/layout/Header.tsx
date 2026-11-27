@@ -22,7 +22,7 @@ export function Header() {
           <Logo className="text-xl" />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav className="hidden items-center gap-5 lg:flex xl:gap-7">
           {NAV_ITEMS.map((item, index) => (
             <NavMenu key={item.label} item={item} pathname={pathname} align={index >= NAV_ITEMS.length - 2 ? "end" : "center"} />
           ))}

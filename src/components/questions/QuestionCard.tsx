@@ -22,7 +22,10 @@ export function QuestionCard({ q, compact }: { q: Question; compact?: boolean })
           </div>
         </dl>
       )}
-      <div className="mt-auto flex flex-wrap gap-1.5 pt-4">
+      <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-4">
+        <Link href={`/ontology/answers#q${q.n}`} className="mr-auto text-xs font-semibold text-brand-blue hover:underline">
+          Answer on the dataset →
+        </Link>
         {q.agents.map((c) => {
           const a = agentByCode(c);
           return a ? (

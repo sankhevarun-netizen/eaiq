@@ -81,6 +81,27 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
+    label: "Ontology",
+    href: "/ontology",
+    groups: [
+      {
+        label: "Knowledge graph",
+        links: [
+          { label: "Overview", href: "/ontology" },
+          { label: "Schema map", href: "/ontology/schema" },
+          { label: "Node explorer", href: "/ontology/explorer" },
+        ],
+      },
+      {
+        label: "Dataset",
+        links: [
+          { label: "The estate", href: "/ontology/estate" },
+          { label: "Answers on the dataset", href: "/ontology/answers" },
+        ],
+      },
+    ],
+  },
+  {
     label: "Who it's for",
     href: "/segments",
     groups: [
