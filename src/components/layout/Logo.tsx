@@ -4,11 +4,11 @@ import { cn } from "@/lib/utils";
 export function KpmgMark({ className, dark = false }: { className?: string; dark?: boolean }) {
   const c = dark ? "#ffffff" : "#00338D";
   return (
-    <svg viewBox="0 0 120 56" className={cn("h-7 w-auto", className)} role="img" aria-label="KPMG">
-      {[2, 30, 58, 86].map((x) => (
-        <rect key={x} x={x + 2} y={2} width={24} height={34} fill="none" stroke={c} strokeWidth={1.6} />
+    <svg viewBox="0 0 200 100" className={cn("h-9 w-auto", className)} role="img" aria-label="KPMG">
+      {[22, 66, 110, 154].map((x) => (
+        <rect key={x} x={x} y={2} width={42} height={74} fill="none" stroke={c} strokeWidth={3.5} />
       ))}
-      <text x={60} y={50} textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight={900} fontStyle="italic" fontSize={30} letterSpacing={-1} fill={c}>
+      <text x={2} y={96} textLength={196} lengthAdjust="spacingAndGlyphs" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontWeight={900} fontStyle="italic" fontSize={64} fill={c}>
         KPMG
       </text>
     </svg>
